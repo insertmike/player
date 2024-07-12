@@ -29,8 +29,8 @@ export class ARIAKeyShortcuts extends ViewController {
       const keys = isArray(shortcuts)
         ? shortcuts.join(' ')
         : isString(shortcuts)
-        ? shortcuts
-        : shortcuts?.keys;
+          ? shortcuts
+          : shortcuts?.keys;
       el.setAttribute('aria-keyshortcuts', isArray(keys) ? keys.join(' ') : keys);
     }
   }

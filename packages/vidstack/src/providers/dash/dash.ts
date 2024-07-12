@@ -9,9 +9,9 @@ import { TextTrackSymbol } from '../../core/tracks/text/symbols';
 import { TextTrack } from '../../core/tracks/text/text-track';
 import { ListSymbol } from '../../foundation/list/symbols';
 import { RAFLoop } from '../../foundation/observers/raf-loop';
+import { getLangName } from '../../utils/language';
 import { canPlayAudioType, canPlayVideoType, IS_CHROME } from '../../utils/support';
 import type { DASHConstructor, DASHInstanceCallback } from './types';
-import { getLangName } from '../../utils/language';
 
 export type DashGetMediaTracks = (type: DASH.MediaType, manifest: object) => DASH.MediaInfo[];
 
@@ -31,7 +31,7 @@ export class DASHController {
   constructor(
     private _video: HTMLVideoElement,
     protected _ctx: MediaContext,
-  ) { }
+  ) {}
 
   setup(ctor: DASHConstructor) {
     this._instance = ctor().create();
@@ -257,20 +257,18 @@ export class DASHController {
 
     audioTracks.forEach((audioTrack: DASH.MediaInfo, index) => {
       // Find the label object that matches the user's preferred languages
-      const matchingLabel = audioTrack.labels.find(label => {
-        return navigator.languages.some(language => {
+      const matchingLabel = audioTrack.labels.find((label) => {
+        return navigator.languages.some((language) => {
           return label.lang && language.toLowerCase().startsWith(label.lang.toLowerCase());
         });
       });
 
-      const label = matchingLabel || audioTrack.labels[0]
+      const label = matchingLabel || audioTrack.labels[0];
 
       const localTrack = {
         id: `dash-audio-${audioTrack?.index}`,
-        label: label?.text ??
-          (audioTrack.lang && getLangName(audioTrack.lang)) ??
-          audioTrack.lang ??
-          '',
+        label:
+          label?.text ?? (audioTrack.lang && getLangName(audioTrack.lang)) ?? audioTrack.lang ?? '',
         language: audioTrack.lang ?? '',
         kind: 'main',
         mimeType: audioTrack.mimeType,

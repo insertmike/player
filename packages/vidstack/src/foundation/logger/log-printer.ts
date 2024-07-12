@@ -48,8 +48,8 @@ export class LogPrinter extends ViewController {
         data?.length === 1 && isGroupedLog(data[0])
           ? data[0].title
           : isString(data?.[0])
-          ? data![0]
-          : '';
+            ? data![0]
+            : '';
 
       console.groupCollapsed(
         `%c${level.toUpperCase()}%c ${eventTargetName}%c ${hint.slice(0, 50)}${
